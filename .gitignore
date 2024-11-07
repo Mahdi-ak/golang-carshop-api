@@ -1,0 +1,14 @@
+*.log
+*.gitkeep
+
+*.out
+*.test
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+
+
+# https://github.com/Mahdi-ak/golang-carshop-api.git
