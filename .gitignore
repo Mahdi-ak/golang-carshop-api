@@ -1,0 +1,13 @@
+*.log
+# *.gitkeep
+
+*.out
+*.test
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+
+
