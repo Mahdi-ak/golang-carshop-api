@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/Mahdi-ak/golang-carshop-api/src/api/helper"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,8 @@ type header struct {
 }
 
 type personData struct {
-	FirstName    string `json:"first_name" binding:"required,alpha,min=4,max=10"`
-	LastName     string `json:"last_name" binding:"required,alpha,min=6,max=20"`
+	FirstName    string `json:"first_name" binding:"required,first_name,min=4,max=10"`
+	LastName     string `json:"last_name" binding:"required,last_name,min=6,max=20"`
 	MobileNumber string `json:"mobile_number" binding:"required,mobile,min=11,max=11"`
 }
 type TestHandler struct {
@@ -142,12 +143,20 @@ func (h *TestHandler) UriBinder(c *gin.Context) {
 // }
 
 func (h *TestHandler) BodyBinder(c *gin.Context) {
+
 	p := personData{}
-	c.ShouldBindJSON(&p)
-	c.JSON(http.StatusOK, gin.H{
+	err := c.ShouldBindJSON(&p)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest,
+			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, err))
+		return
+	}
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"result": "BodyBinder",
 		"person": p,
-	})
+	},
+		true, 0))
 }
 
 func (h *TestHandler) FormBinder(c *gin.Context) {
