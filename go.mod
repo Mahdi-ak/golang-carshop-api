@@ -5,6 +5,7 @@ go 1.23.1
 require (
 	github.com/didip/tollbooth v4.0.2+incompatible
 	github.com/gin-gonic/gin v1.10.0
+	github.com/pkg/errors v0.9.1
 )
 
 require (

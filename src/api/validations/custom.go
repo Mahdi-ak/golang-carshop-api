@@ -1,22 +1,31 @@
 package validations
 
 import (
-	"log"
-	"regexp"
-
 	"github.com/go-playground/validator/v10"
+	"github.com/pkg/errors"
 )
 
-func IranianMobileNumberValidator(fld validator.FieldLevel) bool {
+type ValidationErrors struct {
+	Property string `json:"property"`
+	Tag      string `json:"tag"`
+	Value    string `json:"value"`
+	Massage  string `json:"massage"`
+}
 
-	value, ok := fld.Field().Interface().(string)
-	if !ok {
-		return false
+func GetValidationErrors(err error) *[]ValidationErrors {
+	var validationErrors []ValidationErrors
+	var ve validator.ValidationErrors
+	if errors.As(err, &ve) {
+		for _, err := range err.(validator.ValidationErrors) {
+			var el ValidationErrors
+			el.Property = err.Field()
+			el.Tag = err.Tag()
+			el.Value = err.Param()
+			el.Massage = err.Error()
+			validationErrors = append(validationErrors, el)
+		}
+		return &validationErrors
 	}
+	return nil
 
-	result, err := regexp.MatchString(`^09(1[0-9]|2[0-2]|3[0-9]|9[0-9])[0-9]{7}$`, value)
-	if err != nil {
-		log.Print(err.Error())
-	}
-	return result
 }

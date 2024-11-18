@@ -19,9 +19,11 @@ func InitServer() {
 	r := gin.New()
 	val, ok := binding.Validator.Engine().(*validator.Validate)
 	if ok {
-		val.RegisterValidation("iranian_mobile_number", validations.IranianMobileNumberValidator)
+		val.RegisterValidation("iranian_mobile_number", validations.IranianMobileNumberValidator, true)
+		val.RegisterValidation("password", validations.PasswordValidator, true)
 	}
 
+	r.Use(middlewares.Cors(cfg))
 	r.Use(gin.Logger(), gin.Recovery(), middlewares.LimitByRequest()) //, middlewares.TestMiddleware())
 	api := r.Group("/api")
 

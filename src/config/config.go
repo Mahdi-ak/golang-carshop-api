@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"os"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -12,6 +13,10 @@ type Config struct {
 	Server   ServerConfig
 	Postgres PostgresConfig
 	Redis    RedisConfig
+	Cors     CorsConfig
+	Password PasswordConfig
+	Otp      OtpConfig
+
 	// Logger LogConfig
 }
 
@@ -36,6 +41,24 @@ type RedisConfig struct {
 	MinIdleConnections int
 	PoolSize           int
 	PoolTimeout        int
+}
+
+type PasswordConfig struct {
+	IncludeChars     bool
+	IncludeDigits    bool
+	MinLength        int
+	MaxLength        int
+	IncludeUppercase bool
+	IncludeLowercase bool
+}
+type CorsConfig struct {
+	AllowOrigins string
+}
+
+type OtpConfig struct {
+	ExpireTime time.Duration
+	Digits     int
+	Limiter    time.Duration
 }
 
 // GetConfig retrieves the application configuration settings.
