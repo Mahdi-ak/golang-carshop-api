@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,14 +20,14 @@ func (h *HealthHandler) Health(c *gin.Context) {
 }
 
 // HealthPost handles the POST endpoint
-func (h *HealthHandler) HealthPost(c *gin.Context) {
-	c.JSON(http.StatusOK, "working! Post")
-	return
-}
+// func (h *HealthHandler) HealthPost(c *gin.Context) {
+// 	c.JSON(http.StatusOK, "working! Post")
+// 	return
+// }
 
-// HealthPostById handles the POST by id endpoint
-func (h *HealthHandler) HealthPostById(c *gin.Context) {
-	id := c.Params.ByName("id")
-	c.JSON(http.StatusOK, fmt.Sprintf("working! Post by id: %s", id))
-	return
-}
+// // HealthPostById handles the POST by id endpoint
+// func (h *HealthHandler) HealthPostById(c *gin.Context) {
+// 	id := c.Params.ByName("id")
+// 	c.JSON(http.StatusOK, fmt.Sprintf("working! Post by id: %s", id))
+// 	return
+// }
