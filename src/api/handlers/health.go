@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/Mahdi-ak/golang-carshop-api/src/api/helper"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,8 +16,8 @@ func NewHealthHandler() *HealthHandler {
 
 // Health handles the GET endpoint
 func (h *HealthHandler) Health(c *gin.Context) {
-	c.JSON(http.StatusOK, "working!")
-	return
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse("working!", true, 0))
+	// return
 }
 
 // HealthPost handles the POST endpoint

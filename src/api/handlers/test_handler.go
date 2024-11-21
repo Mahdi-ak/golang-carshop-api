@@ -13,8 +13,8 @@ type header struct {
 }
 
 type personData struct {
-	FirstName    string `json:"first_name" binding:"required,first_name,min=4,max=10"`
-	LastName     string `json:"last_name" binding:"required,last_name,min=6,max=20"`
+	FirstName    string `json:"first_name" binding:"required,alpha,min=4,max=10"`
+	LastName     string `json:"last_name" binding:"required,alpha,min=6,max=20"`
 	MobileNumber string `json:"mobile_number" binding:"required,mobile,min=11,max=11"`
 }
 type TestHandler struct {
@@ -29,6 +29,7 @@ func (h *TestHandler) Test(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"result": "Test",
 	})
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse("Test!", true, 0))
 
 }
 
@@ -43,6 +44,7 @@ func (h *TestHandler) Users(c *gin.Context) {
 func (h *TestHandler) UserById(c *gin.Context) {
 
 	id := c.Param("id")
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse("UserById!", true, 0))
 	c.JSON(http.StatusOK, gin.H{
 		"result": "UserById",
 		"id":     id,
@@ -155,8 +157,7 @@ func (h *TestHandler) BodyBinder(c *gin.Context) {
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"result": "BodyBinder",
 		"person": p,
-	},
-		true, 0))
+	}, true, 0))
 }
 
 func (h *TestHandler) FormBinder(c *gin.Context) {
