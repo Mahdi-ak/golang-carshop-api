@@ -35,12 +35,15 @@ type PostgresConfig struct {
 }
 type RedisConfig struct {
 	Host               string
-	Port               int
+	Port               string
 	Password           string
 	Db                 int
-	MinIdleConnections int
+	DialTimeout        time.Duration
+	ReadTimeout        time.Duration
+	WriteTimeout       time.Duration
 	PoolSize           int
-	PoolTimeout        int
+	PoolTimeout        time.Duration
+	IdleCheckFrequency time.Duration
 }
 
 type PasswordConfig struct {

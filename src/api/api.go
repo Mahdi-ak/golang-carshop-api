@@ -12,19 +12,26 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-func InitServer() {
-	// Initialize the server with configuration settings
-	cfg := config.GetConfig()
+func InitServer(cfg *config.Config) {
 
+	// Initialize the server with configuration settings
 	r := gin.New()
+	RegisterValidations()
+	r.Use(gin.Logger(), gin.Recovery())
+	r.Use(middlewares.Cors(cfg))
+
+	RegisterRoutes(r)
+	// listen and serve on 0.0.0.0:5005
+	r.Run(fmt.Sprintf(":%d", cfg.Server.Port))
+}
+func RegisterValidations() {
 	val, ok := binding.Validator.Engine().(*validator.Validate)
 	if ok {
 		val.RegisterValidation("mobile", validations.IranianMobileNumberValidator, true)
 		// val.RegisterValidation("password", validations.PasswordValidator, true)
 	}
-	r.Use(gin.Logger(), gin.Recovery())
-	r.Use(middlewares.Cors(cfg))
-	// r.Use(gin.Logger(), gin.Recovery(), middlewares.LimitByRequest()) //, middlewares.TestMiddleware())
+}
+func RegisterRoutes(r *gin.Engine) {
 	api := r.Group("/api")
 
 	v1 := api.Group("/v1")
@@ -43,6 +50,4 @@ func InitServer() {
 		routers.Health(health)
 	}
 
-	// listen and serve on 0.0.0.0:5005
-	r.Run(fmt.Sprintf(":%d", cfg.Server.Port))
 }
