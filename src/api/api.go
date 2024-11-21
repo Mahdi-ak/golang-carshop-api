@@ -18,7 +18,7 @@ func InitServer(cfg *config.Config) {
 	r := gin.New()
 	RegisterValidations()
 	r.Use(gin.Logger(), gin.Recovery())
-	r.Use(middlewares.Cors(cfg))
+	r.Use(middlewares.Cors(cfg), middlewares.LimitByRequest())
 
 	RegisterRoutes(r)
 	// listen and serve on 0.0.0.0:5005
