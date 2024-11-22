@@ -1,0 +1,140 @@
+definitions:
+  handlers.personData:
+    properties:
+      first_name:
+        maxLength: 10
+        minLength: 4
+        type: string
+      last_name:
+        maxLength: 20
+        minLength: 6
+        type: string
+      mobile_number:
+        maxLength: 11
+        minLength: 11
+        type: string
+    required:
+    - first_name
+    - last_name
+    - mobile_number
+    type: object
+  helper.BaseHttpResponse:
+    properties:
+      errors: {}
+      result: {}
+      resultCode:
+        $ref: '#/definitions/helper.ResultCode'
+      success:
+        type: boolean
+      validationErrors:
+        items:
+          $ref: '#/definitions/validations.ValidationErrors'
+        type: array
+    type: object
+  helper.ResultCode:
+    enum:
+    - 0
+    - 40001
+    - 40101
+    - 40301
+    - 40401
+    - 42901
+    - 42902
+    - 50001
+    - 50002
+    type: integer
+    x-enum-varnames:
+    - Success
+    - ValidationError
+    - AuthError
+    - ForbiddenError
+    - NotFoundError
+    - LimiterError
+    - OtpLimiterError
+    - CustomRecovery
+    - InternalError
+  validations.ValidationErrors:
+    properties:
+      massage:
+        type: string
+      property:
+        type: string
+      tag:
+        type: string
+      value:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/health/:
+    get:
+      consumes:
+      - application/json
+      description: Health Check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+      summary: Health Check
+      tags:
+      - health
+  /v1/test/binder/body:
+    post:
+      consumes:
+      - application/json
+      description: BodyBinder
+      parameters:
+      - description: person data
+        in: body
+        name: person
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.personData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+      summary: BodyBinder
+      tags:
+      - Test
+  /v1/test/user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: UserById
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+      summary: UserById
+      tags:
+      - Test
+swagger: "2.0"

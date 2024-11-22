@@ -15,20 +15,16 @@ func NewHealthHandler() *HealthHandler {
 }
 
 // Health handles the GET endpoint
+// HealthCheck godoc
+// @Summary Health Check
+// @Description Health Check
+// @Tags health
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} helper.BaseHttpResponse "Success"
+// @Failure 400 {object} helper.BaseHttpResponse{} "Failed"
+// @Router /v1/health/ [get]
 func (h *HealthHandler) Health(c *gin.Context) {
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse("working!", true, 0))
-	// return
+
 }
-
-// HealthPost handles the POST endpoint
-// func (h *HealthHandler) HealthPost(c *gin.Context) {
-// 	c.JSON(http.StatusOK, "working! Post")
-// 	return
-// }
-
-// // HealthPostById handles the POST by id endpoint
-// func (h *HealthHandler) HealthPostById(c *gin.Context) {
-// 	id := c.Params.ByName("id")
-// 	c.JSON(http.StatusOK, fmt.Sprintf("working! Post by id: %s", id))
-// 	return
-// }
