@@ -17,7 +17,7 @@ type Config struct {
 	Password PasswordConfig
 	Otp      OtpConfig
 
-	// Logger LogConfig
+	Logger LoggerConfig
 }
 
 type ServerConfig struct {

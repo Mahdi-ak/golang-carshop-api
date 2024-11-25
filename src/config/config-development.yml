@@ -2,7 +2,7 @@ server:
   port: 5005
   RunMode: debug
 logger:
-  filePath: ../logs/app.log
+  filePath: src/logs/app.log
   encoding: json
   level: debug
 cors:

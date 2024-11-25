@@ -1,28 +1,28 @@
 package main
 
 import (
-	"log"
-
 	"github.com/Mahdi-ak/golang-carshop-api/src/api"
 	"github.com/Mahdi-ak/golang-carshop-api/src/config"
 	"github.com/Mahdi-ak/golang-carshop-api/src/data/cache"
 	"github.com/Mahdi-ak/golang-carshop-api/src/data/db"
+	"github.com/Mahdi-ak/golang-carshop-api/src/pkg/logging"
 )
 
 func main() {
+	cfg := config.GetConfig()
+	logger := logging.NewLogger(cfg)
 
 	// Initialize the redis
-	cfg := config.GetConfig()
 	err := cache.InitRedis(cfg)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(logging.Redis, logging.Startup, err.Error(), nil)
 	}
 	defer cache.CloseRedis()
 
 	// Initialize the postgres
 	err = db.InitDb(cfg)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(logging.Postgres, logging.Startup, err.Error(), nil)
 	}
 	defer db.CloseDb()
 
