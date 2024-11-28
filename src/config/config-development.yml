@@ -5,6 +5,7 @@ logger:
   filePath: src/logs/app.log
   encoding: json
   level: debug
+  logger: zap
 cors:
   allowedOrigins: "*"
 postgres:

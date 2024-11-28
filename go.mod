@@ -6,6 +6,7 @@ require (
 	github.com/didip/tollbooth v4.0.2+incompatible
 	github.com/gin-gonic/gin v1.10.0
 	github.com/pkg/errors v0.9.1
+	github.com/rs/zerolog v1.33.0
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.4
@@ -35,6 +36,7 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
+	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect

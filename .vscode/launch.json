@@ -12,10 +12,13 @@
             "program": "${workspaceFolder}/src/cmd",
             "preLaunchTask": "swag",
         },
-        
- 
-        
-        
-
+        {
+            "name": "Launch Go Program",
+            "type": "go",
+            "request": "launch",
+            "mode": "exec",
+            "program": "src/cmd/main.go", 
+            "buildFlags": "-v"
+          }
     ]
 }

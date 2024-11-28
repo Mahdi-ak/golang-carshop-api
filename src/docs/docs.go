@@ -32,13 +32,13 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse"
                         }
                     },
                     "400": {
                         "description": "Failed",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse"
                         }
                     }
                 }
@@ -64,7 +64,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.personData"
+                            "$ref": "#/definitions/api_handlers.personData"
                         }
                     }
                 ],
@@ -72,13 +72,13 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse"
                         }
                     },
                     "400": {
                         "description": "Failed",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse"
                         }
                     }
                 }
@@ -110,13 +110,13 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse"
                         }
                     },
                     "400": {
                         "description": "Failed",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse"
                         }
                     }
                 }
@@ -124,7 +124,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "handlers.personData": {
+        "api_handlers.personData": {
             "type": "object",
             "required": [
                 "first_name",
@@ -149,13 +149,13 @@ const docTemplate = `{
                 }
             }
         },
-        "helper.BaseHttpResponse": {
+        "github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse": {
             "type": "object",
             "properties": {
                 "errors": {},
                 "result": {},
                 "resultCode": {
-                    "$ref": "#/definitions/helper.ResultCode"
+                    "$ref": "#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_helper.ResultCode"
                 },
                 "success": {
                     "type": "boolean"
@@ -163,12 +163,12 @@ const docTemplate = `{
                 "validationErrors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/validations.ValidationErrors"
+                        "$ref": "#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_validations.ValidationErrors"
                     }
                 }
             }
         },
-        "helper.ResultCode": {
+        "github_com_Mahdi-ak_golang-carshop-api_src_api_helper.ResultCode": {
             "type": "integer",
             "enum": [
                 0,
@@ -193,7 +193,7 @@ const docTemplate = `{
                 "InternalError"
             ]
         },
-        "validations.ValidationErrors": {
+        "github_com_Mahdi-ak_golang-carshop-api_src_api_validations.ValidationErrors": {
             "type": "object",
             "properties": {
                 "massage": {

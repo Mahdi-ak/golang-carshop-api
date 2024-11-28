@@ -7,6 +7,8 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
+var zapSinLogger *zap.SugaredLogger
+
 type zapLogger struct {
 	cfg    *config.Config
 	logger *zap.SugaredLogger
@@ -42,29 +44,34 @@ func (l *zapLogger) GetLogLevel() zapcore.Level {
 }
 
 func (l *zapLogger) Init() {
-	w := zapcore.AddSync(&lumberjack.Logger{
-		// rotate log files every 50MB and keep a max of 10 days
-		Filename:   l.cfg.Logger.FilePath,
-		MaxSize:    50,    // megabytes
-		MaxAge:     10,    // days
-		LocalTime:  false, // use UTC time
-		MaxBackups: 10,    // keep 10 backup logs
-		Compress:   true,
+	once.Do(func() {
+
+		w := zapcore.AddSync(&lumberjack.Logger{
+			// rotate log files every 50MB and keep a max of 10 days
+			Filename:   l.cfg.Logger.FilePath,
+			MaxSize:    50,    // megabytes
+			MaxAge:     10,    // days
+			LocalTime:  false, // use UTC time
+			MaxBackups: 10,    // keep 10 backup logs
+			Compress:   true,
+		})
+
+		config := zap.NewProductionEncoderConfig()
+		config.EncodeTime = zapcore.ISO8601TimeEncoder
+
+		core := zapcore.NewCore(
+			zapcore.NewJSONEncoder(config),
+			w,
+			l.GetLogLevel(),
+		)
+
+		logger := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1),
+			zap.AddStacktrace(zapcore.ErrorLevel)).Sugar()
+
+		zapSinLogger = logger.With("AppName", "MyApp", "LoggerName", "Zaplog")
 	})
 
-	config := zap.NewProductionEncoderConfig()
-	config.EncodeTime = zapcore.ISO8601TimeEncoder
-
-	core := zapcore.NewCore(
-		zapcore.NewJSONEncoder(config),
-		w,
-		l.GetLogLevel(),
-	)
-
-	logger := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1),
-		zap.AddStacktrace(zapcore.ErrorLevel)).Sugar()
-
-	l.logger = logger
+	l.logger = zapSinLogger
 }
 
 func (l *zapLogger) Debug(cat Category, sub SubCategory, msg string, extra map[ExtraKey]interface{}) {
