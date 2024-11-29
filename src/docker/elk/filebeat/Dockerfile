@@ -1,3 +1,0 @@
-ARG STACK_VERSION
-
-FROM elastic/filebeat:${STACK_VERSION}

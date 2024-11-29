@@ -1,18 +1,11 @@
 
-
 services:
   ##### Setup #######
   setup:
-    # image: elastic/elasticsearch:${STACK_VERSION}
-    build:
-      context: elk/elasticsearch/
-      args:
-        STACK_VERSION: ${STACK_VERSION}
+    image: docker.arvancloud.ir/elastic/elasticsearch:${STACK_VERSION}
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
-      # - ./elk/setup/setup.sh:/setup.sh:ro,Z
     user: "0"
-      # bash -c "chmod +x /setup.sh && /setup.sh"
     command: >
       bash -c '
         if [ x${ELASTIC_PASSWORD} == x ]; then
@@ -70,18 +63,14 @@ services:
       interval: 1s
       timeout: 5s
       retries: 120
-
     
 
   ##### Elasticsearch #######
   es01:
-    build:
-      context: elk/elasticsearch/
-      args:
-        STACK_VERSION: ${STACK_VERSION}
     depends_on:
       setup:
         condition: service_healthy
+    image: docker.arvancloud.ir/elastic/elasticsearch:${STACK_VERSION}
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
       - elastic:/usr/share/elasticsearch/data
@@ -111,15 +100,12 @@ services:
   filebeat:
     depends_on:
       - es01
-    build:
-      context: elk/filebeat/
-      args:
-        STACK_VERSION: ${STACK_VERSION}
+    image: docker.arvancloud.ir/elastic/filebeat:${STACK_VERSION}
     user: root
     volumes:
       - certs:/usr/share/filebeat/certs
       - filebeatdata01:/usr/share/filebeat/data
-      - ./elk/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./elk/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:rw
       - ../logs:/var/log/filebeat/service:ro
       - logs:/var/log/filebeat
       - logs:/app:ro
@@ -136,22 +122,17 @@ services:
   kibana:
     depends_on:
       - es01
-    build:
-      context: elk/kibana/
-      args:
-        STACK_VERSION: ${STACK_VERSION}
+    image: docker.arvancloud.ir/elastic/kibana:${STACK_VERSION}
     volumes:
-      - ./elk/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
       - certs:/usr/share/kibana/config/certs
       - kibanadata:/usr/share/kibana/data
     ports:
       - ${KIBANA_PORT}:5601
     environment:
-      # - SERVERNAME=kibana
-      # - ELASTICSEARCH_HOSTS=https://es01:9200
-      # - ELASTICSEARCH_USERNAME=kibana_system
-      # - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
-      - KIBANA_SYSTEM_PASSWORD:${KIBANA_PASSWORD}
+      - SERVERNAME=kibana
+      - ELASTICSEARCH_HOSTS=https://es01:9200
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
       - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
       - XPACK_SECURITY_ENCRYPTIONKEY=${ENCRYPTION_KEY}
       - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${ENCRYPTION_KEY}
@@ -159,7 +140,7 @@ services:
     networks:
       - app_network
   
-  # ##### Postgres #######
+  ##### Postgres #######
   # postgres:
   #   image: postgres
   #   environment:
@@ -229,5 +210,3 @@ volumes:
 networks:
   app_network:
     driver: bridge 
-
-    
