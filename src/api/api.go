@@ -20,8 +20,9 @@ func InitServer(cfg *config.Config) {
 	// Initialize the server with configuration settings
 	r := gin.New()
 	RegisterValidations()
-	r.Use(gin.Logger(), gin.Recovery())
+	r.Use(middlewares.DefaultStructuredLogger(cfg))
 	r.Use(middlewares.Cors(cfg), middlewares.LimitByRequest())
+	r.Use(gin.Logger(), gin.Recovery())
 
 	RegisterRoutes(r)
 	RegisterSwagger(r, cfg)
