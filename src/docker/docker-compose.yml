@@ -105,7 +105,7 @@ services:
     volumes:
       - certs:/usr/share/filebeat/certs
       - filebeatdata01:/usr/share/filebeat/data
-      - ./elk/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:rw
+      - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:rw
       - ../logs:/var/log/filebeat/service:ro
       - logs:/var/log/filebeat
       - logs:/app:ro
@@ -174,18 +174,18 @@ services:
   #     - postgres
   
   ###### Redis #######
-  redis:
-    image: redis:latest
-    container_name: redis_container
-    restart: unless-stopped
-    environment:
-      REDIS_PASSWORD: admin
-    volumes:
-      - redis:/data
-    ports:
-      - "6379:6379"
-    networks:
-      - app_network
+  # redis:
+  #   image: redis:latest
+  #   container_name: redis_container
+  #   restart: unless-stopped
+  #   environment:
+  #     REDIS_PASSWORD: admin
+  #   volumes:
+  #     - redis:/data
+  #   ports:
+  #     - "6379:6379"
+  #   networks:
+  #     - app_network
 
 
 
