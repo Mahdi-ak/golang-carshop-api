@@ -2,6 +2,7 @@
 services:
   ##### Setup #######
   setup:
+    container_name: Setup
     image: docker.arvancloud.ir/elastic/elasticsearch:${STACK_VERSION}
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
@@ -67,6 +68,7 @@ services:
 
   ##### Elasticsearch #######
   es01:
+    container_name: Elasticsearch
     depends_on:
       setup:
         condition: service_healthy
@@ -98,6 +100,7 @@ services:
 
   ##### Filebeat #######
   filebeat:
+    container_name: filebeat
     depends_on:
       - es01
     image: docker.arvancloud.ir/elastic/filebeat:${STACK_VERSION}
@@ -120,6 +123,7 @@ services:
     
  ##### Kibana #######
   kibana:
+    container_name: kibana
     depends_on:
       - es01
     image: docker.arvancloud.ir/elastic/kibana:${STACK_VERSION}
@@ -140,52 +144,54 @@ services:
     networks:
       - app_network
   
-  ##### Postgres #######
-  # postgres:
-  #   image: postgres
-  #   environment:
-  #     POSTGRES_USER: newpostgres
-  #     POSTGRES_PASSWORD: admin
-  #     POSTGRES_DB: car_sale_db
-  #     PGDATA: /var/lib/postgresql/data
-  #   volumes:
-  #     - postgres:/var/lib/postgresql/data
-  #   ports:
-  #     - "5432:5432"
-  #   networks:
-  #     - app_network
-  #   restart: unless-stopped
+  #### Postgres #######
+  postgres:
+    image: postgres
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: car_sale_db
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+    restart: unless-stopped
   
-  # ##### PGADMIN #######
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   container_name: pgadmin_container
-  #   restart: unless-stopped
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: sahandahmadipgr2004@gmail.com
-  #     PGADMIN_DEFAULT_PASSWORD: admin
-  #   volumes:
-  #     - pgadmin:/var/lib/pgadmin
-  #   ports:
-  #     - "8090:80"
-  #   networks:
-  #     - app_network
-  #   depends_on:
-  #     - postgres
+  ##### PGADMIN #######
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_container
+    user: "0"
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: mahdiii.ak4@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 12345
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "8090:80"
+    networks:
+      - app_network
+    depends_on:
+      - postgres
   
-  ###### Redis #######
-  # redis:
-  #   image: redis:latest
-  #   container_name: redis_container
-  #   restart: unless-stopped
-  #   environment:
-  #     REDIS_PASSWORD: admin
-  #   volumes:
-  #     - redis:/data
-  #   ports:
-  #     - "6379:6379"
-  #   networks:
-  #     - app_network
+  ##### Redis #######
+  redis:
+    image: redis:latest
+    container_name: redis_container
+    restart: unless-stopped
+    environment:
+      REDIS_PASSWORD: admin
+    volumes:
+      - redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - app_network
 
 
 
@@ -210,3 +216,4 @@ volumes:
 networks:
   app_network:
     driver: bridge 
+
