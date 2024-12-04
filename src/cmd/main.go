@@ -27,6 +27,7 @@ func main() {
 	}
 	defer db.CloseDb()
 	migrations.Up_1()
+	logger.Info(logging.Postgres, logging.Startup, "Database Migrations completed", nil)
 
 	// Initialize the server
 	api.InitServer(cfg)

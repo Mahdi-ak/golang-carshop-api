@@ -2,10 +2,10 @@ server:
   port: 5005
   RunMode: debug
 logger:
-  filePath: ../logs/app.log
+  filePath: ../logs/
   Encoding: json
   Level: debug
-  logger: zero
+  logger: zerolog
 cors:
   allowedOrigins: "*"
 postgres:
