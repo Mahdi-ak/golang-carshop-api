@@ -48,10 +48,10 @@ type RedisConfig struct {
 	Port               string
 	Password           string
 	Db                 int
+	PoolSize           int
 	DialTimeout        time.Duration
 	ReadTimeout        time.Duration
 	WriteTimeout       time.Duration
-	PoolSize           int
 	PoolTimeout        time.Duration
 	IdleCheckFrequency time.Duration
 }
@@ -79,7 +79,6 @@ type OtpConfig struct {
 // If the file is found, it is read into a viper.Viper object.
 // The object is then unmarshaled into a Config object, which is returned.
 // If the config file is not found, an error is logged and returned.
-
 func GetConfig() *Config {
 	cfgPath := getConfigPath(os.Getenv("APP_ENV"))
 

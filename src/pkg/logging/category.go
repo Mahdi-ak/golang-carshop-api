@@ -40,6 +40,10 @@ const (
 
 	// IO
 	RemoveFile SubCategory = "RemoveFile"
+
+	//Redis
+	Set SubCategory = "Set"
+	Get SubCategory = "Get"
 )
 
 const (

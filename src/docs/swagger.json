@@ -110,6 +110,52 @@
                     }
                 }
             }
+        },
+        "/v1/users/send-otp": {
+            "post": {
+                "description": "Sends an OTP to the specified mobile number",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Send OTP",
+                "parameters": [
+                    {
+                        "description": "GetOtpRequest",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_dto.GetOtpRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OTP Sent",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -132,6 +178,19 @@
                     "minLength": 6
                 },
                 "mobile_number": {
+                    "type": "string",
+                    "maxLength": 11,
+                    "minLength": 11
+                }
+            }
+        },
+        "github_com_Mahdi-ak_golang-carshop-api_src_api_dto.GetOtpRequest": {
+            "type": "object",
+            "required": [
+                "mobileNumber"
+            ],
+            "properties": {
+                "mobileNumber": {
                     "type": "string",
                     "maxLength": 11,
                     "minLength": 11

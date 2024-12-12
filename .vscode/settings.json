@@ -5,6 +5,7 @@
         "dbname",
         "Debugf",
         "gorm",
-        "Infof"
+        "Infof",
+        "seviceerrors"
     ],    
 }

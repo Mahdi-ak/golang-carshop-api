@@ -18,6 +18,15 @@ definitions:
     - last_name
     - mobile_number
     type: object
+  github_com_Mahdi-ak_golang-carshop-api_src_api_dto.GetOtpRequest:
+    properties:
+      mobileNumber:
+        maxLength: 11
+        minLength: 11
+        type: string
+    required:
+    - mobileNumber
+    type: object
   github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse:
     properties:
       errors: {}
@@ -137,4 +146,34 @@ paths:
       summary: UserById
       tags:
       - Test
+  /v1/users/send-otp:
+    post:
+      consumes:
+      - application/json
+      description: Sends an OTP to the specified mobile number
+      parameters:
+      - description: GetOtpRequest
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_dto.GetOtpRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: OTP Sent
+          schema:
+            $ref: '#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse'
+        "400":
+          description: Invalid Request
+          schema:
+            $ref: '#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_Mahdi-ak_golang-carshop-api_src_api_helper.BaseHttpResponse'
+      summary: Send OTP
+      tags:
+      - users
 swagger: "2.0"
