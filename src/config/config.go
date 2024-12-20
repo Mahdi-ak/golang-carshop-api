@@ -16,8 +16,8 @@ type Config struct {
 	Cors     CorsConfig
 	Password PasswordConfig
 	Otp      OtpConfig
-
-	Logger LoggerConfig
+	Logger   LoggerConfig
+	JWT      JWTConfig
 }
 
 type ServerConfig struct {
@@ -72,6 +72,13 @@ type OtpConfig struct {
 	ExpireTime time.Duration
 	Digits     int
 	Limiter    time.Duration
+}
+
+type JWTConfig struct {
+	AccessTokenExpireDuration  time.Duration
+	RefreshTokenExpireDuration time.Duration
+	Secret                     string
+	RefreshSecret              string
 }
 
 // GetConfig retrieves the application configuration settings.
