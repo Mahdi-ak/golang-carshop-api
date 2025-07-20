@@ -22,7 +22,7 @@ func InitServer(cfg *config.Config) {
 	RegisterValidations()
 	r.Use(middlewares.DefaultStructuredLogger(cfg))
 	r.Use(middlewares.Cors(cfg), middlewares.LimitByRequest())
-	r.Use(gin.Logger(), gin.Recovery())
+	r.Use(gin.Logger(), gin.CustomRecovery(middlewares.ErrorHandler) /*middlewares.TestMiddleware()*/, middlewares.LimitByRequest())
 
 	RegisterRoutes(r)
 	RegisterSwagger(r, cfg)
