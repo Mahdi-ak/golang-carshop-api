@@ -5,6 +5,7 @@ import (
 
 	"github.com/Mahdi-ak/golang-carshop-api/src/api/dto"
 	"github.com/Mahdi-ak/golang-carshop-api/src/config"
+	"github.com/Mahdi-ak/golang-carshop-api/src/constants"
 	"github.com/Mahdi-ak/golang-carshop-api/src/pkg/logging"
 	service_errors "github.com/Mahdi-ak/golang-carshop-api/src/pkg/sevice_errors"
 	"github.com/golang-jwt/jwt"
@@ -37,14 +38,14 @@ func (s *TokenService) GenerateToken(token *tokenDto) (*dto.TokenDetail, error) 
 	}
 
 	AccessTokenClaims := jwt.MapClaims{
-		"user_id":    token.UserId,
-		"first_name": token.FirstName,
-		"last_name":  token.LastName,
-		"email":      token.Email,
-		"role":       token.Roles,
-		"user_name":  token.UserName,
-		"mobile":     token.mobileNumber,
-		"ex":         tokenDetail.AccessTokenExpireTime,
+		constants.UserIdKey:       token.UserId,
+		constants.FirstNameKey:    token.FirstName,
+		constants.LastNameKey:     token.LastName,
+		constants.EmailKey:        token.Email,
+		constants.RolesKey:        token.Roles,
+		constants.UsernameKey:     token.UserName,
+		constants.MobileNumberKey: token.mobileNumber,
+		constants.ExpireTimeKey:   tokenDetail.AccessTokenExpireTime,
 	}
 	at := jwt.NewWithClaims(jwt.SigningMethodES256, AccessTokenClaims)
 
@@ -101,3 +102,4 @@ func (s *TokenService) GetClaims(token string) (claimMap map[string]interface{},
 	}
 	return nil, &service_errors.ServiceError{EndUserMessage: service_errors.ClaimsNotFound}
 }
+ 
