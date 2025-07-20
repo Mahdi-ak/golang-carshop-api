@@ -12,4 +12,8 @@ func User(router *gin.RouterGroup) {
 	handlers := handlers.NewUserHandler(cfg)
 
 	router.POST("/send-otp", middlewares.OtpLimiter(cfg), handlers.SendOtp)
+	router.POST("/login-by-username", middlewares.OtpLimiter(cfg), handlers.LoginByUsername)
+	router.POST("/login-by-mobile", middlewares.OtpLimiter(cfg), handlers.RegisterLoginByMobileNumber)
+	router.POST("/register-by-username", middlewares.OtpLimiter(cfg), handlers.RegisterByUsername)
+
 }
